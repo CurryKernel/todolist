@@ -1,0 +1,4 @@
+owner: CurryKernel
+repo: todolist
+provider: github
+updaterCacheDirName: yuan-plan-updater

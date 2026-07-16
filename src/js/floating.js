@@ -26,6 +26,14 @@ class FloatingModule {
     this.render();
     window.store.on('change', () => this.render());
 
+    // Prevent accidental maximize from double-click on drag region
+    window.addEventListener('dblclick', (e) => {
+      if (e.target.closest('.float-header') || e.target.closest('#float-header')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
     // Day navigation
     document.getElementById('float-prev').addEventListener('click', () => {
       this.offset--;

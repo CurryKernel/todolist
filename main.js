@@ -253,6 +253,8 @@ function createFloatingWindow() {
     frame: false,
     alwaysOnTop: true,
     resizable: true,
+    maximizable: false,
+    fullscreenable: false,
     skipTaskbar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

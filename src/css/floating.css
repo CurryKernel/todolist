@@ -33,9 +33,11 @@ body {
   color: #fff;
   cursor: grab;
   -webkit-app-region: drag;
+  -webkit-user-select: none;
   flex-shrink: 0;
 }
 .float-header:active { cursor: grabbing; }
+.float-header button { -webkit-app-region: no-drag; }
 .float-title {
   font-size: 12px; font-weight: 600;
   flex: 1; text-align: center;
