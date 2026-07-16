@@ -1,0 +1,20 @@
+appId: com.yuanplan.todolist
+productName: 源计划
+executableName: YuanPlan
+directories:
+  output: dist
+files:
+  - main.js
+  - preload.js
+  - src/**/*
+  - node_modules/**/*
+win:
+  target: nsis
+  icon: src/assets/icons/icon.ico
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  installerIcon: src/assets/icons/icon.ico
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: 源计划
