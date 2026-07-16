@@ -9,12 +9,13 @@ files:
   - src/**/*
   - node_modules/**/*
 win:
-  target: nsis
-  icon: src/assets/icons/icon.svg
+  target:
+    - target: nsis
+    - target: portable
+  signAndEditExecutable: false
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
-  installerIcon: src/assets/icons/icon.svg
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: 源计划

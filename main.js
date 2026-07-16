@@ -150,7 +150,6 @@ function createWindow() {
     minWidth: 900,
     minHeight: 600,
     title: '源计划 - 王源主题待办清单',
-    icon: path.join(__dirname, 'src', 'assets', 'icons', 'icon.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
