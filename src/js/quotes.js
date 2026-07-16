@@ -22,8 +22,8 @@ class QuotesModule {
 
   init() {
     this.showRandom();
-    // Auto-refresh every 30 seconds
-    this.timer = setInterval(() => this.showRandom(), 30000);
+    // Auto-refresh every 1 hour
+    this.timer = setInterval(() => this.showRandom(), 60 * 60 * 1000);
     // Double-click to refresh
     const widget = document.getElementById('quotes-widget');
     if (widget) {
