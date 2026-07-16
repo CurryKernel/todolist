@@ -1,16 +1,15 @@
 class App {
-  constructor() {
-    this.initialized = false;
-  }
+  constructor() { this.initialized = false; }
 
   async init() {
     if (this.initialized) return;
-    await window.store.init();
-    if (window.ThemeManager) await window.ThemeManager.init();
-    this.initialized = true;
 
-    // Initialize UI modules
-    if (window.Sidebar) window.Sidebar.init();
+    await window.store.init();
+
+    if (window.ThemeManager) await window.ThemeManager.init();
+    if (window.Clock) window.Clock.init();
+    if (window.Calendar) window.Calendar.init();
+    if (window.GifRotator) window.GifRotator.init();
     if (window.TaskList) window.TaskList.init();
     if (window.TaskDetail) window.TaskDetail.init();
     if (window.SearchBar) window.SearchBar.init();
@@ -18,24 +17,30 @@ class App {
     if (window.SettingsPanel) window.SettingsPanel.init();
     if (window.Animations) window.Animations.init();
 
-    // Listen for menu actions from main process
-    if (window.electronAPI.onMenuAction) {
-      window.electronAPI.onMenuAction((action) => {
-        if (action === 'undo' && window.TaskList) {
-          window.TaskList.handleUndo();
-        }
-      });
-    }
+    this.initialized = true;
+
+    // Settings/Stats panel buttons
+    document.getElementById('btn-settings').addEventListener('click', () => {
+      if (window.SettingsPanel) window.SettingsPanel.toggle();
+    });
+    document.getElementById('btn-stats').addEventListener('click', () => {
+      if (window.StatsPanel) window.StatsPanel.toggle();
+    });
 
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
         e.preventDefault();
-        if (window.TaskList) window.TaskList.focusQuickAdd();
+        document.getElementById('add-task-title').focus();
       }
     });
 
-    console.log('源计划 initialized');
+    // Set add-task date to today
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('add-date');
+    if (dateInput) dateInput.value = today;
+
+    console.log('源计划 · 一二布布主题 · initialized');
   }
 }
 

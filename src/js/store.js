@@ -127,6 +127,7 @@ class AppStore {
       createdAt: now,
       updatedAt: now,
       order: 0,
+      progress: todoData.progress || 0,
       tags: todoData.tags || []
     };
     this.todos.unshift(todo);

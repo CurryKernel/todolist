@@ -1,88 +1,100 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="theme-morning">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>源计划 - 王源主题待办清单</title>
+  <title>源计划 - 一二布布主题待办清单</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
   <div class="app-container">
-    <!-- Sidebar -->
+    <!-- Sidebar: Calendar + Clock + GIF -->
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-avatar" id="sidebar-avatar">🎵</div>
-        <div class="sidebar-greeting" id="sidebar-greeting">
-          源气满满<br><strong>今天也要加油 💚</strong>
-        </div>
+      <div class="calendar-header">
+        <button class="calendar-nav-btn" id="cal-prev">◀</button>
+        <span class="calendar-month-label" id="cal-month-label">2026年7月</span>
+        <button class="calendar-nav-btn" id="cal-next">▶</button>
       </div>
-      <div class="sidebar-divider"></div>
-      <nav class="sidebar-nav" id="category-nav">
-        <!-- Populated by sidebar.js -->
-      </nav>
-      <div class="sidebar-footer">
-        <div class="sidebar-mini-stats" id="mini-stats" title="点击查看完整统计">
-          <div>今日完成</div>
-          <div class="stats-number" id="mini-stats-number">0/0</div>
-        </div>
-        <button class="btn btn-secondary" id="settings-btn" style="width:100%;">
-          ⚙️ 设置
-        </button>
+      <div class="calendar-weekdays">
+        <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+      </div>
+      <div class="calendar-grid" id="calendar-grid"></div>
+      <div class="clock-widget">
+        <div class="clock-time" id="clock-time">00:00</div>
+        <div class="clock-date" id="clock-date">2026年7月16日</div>
+      </div>
+      <div class="gif-area" id="gif-area">
+        <img id="gif-img" src="" alt="一二布布">
+      </div>
+      <div class="sidebar-footer-actions">
+        <button id="btn-settings">⚙️ 设置</button>
+        <button id="btn-stats">📊 统计</button>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content" id="main-content">
-      <div class="toolbar" id="toolbar">
-        <span class="toolbar-title" id="toolbar-title">全部待办</span>
-        <div class="search-box" id="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" class="input" id="search-input" placeholder="搜索待办事项...">
-          <button class="search-clear" id="search-clear">✕</button>
+    <main class="main-content">
+      <!-- Day Navigation -->
+      <div class="day-nav">
+        <button class="day-nav-btn" id="day-prev">◀</button>
+        <span class="day-nav-label" id="day-label">今天</span>
+        <button class="day-nav-btn" id="day-next">▶</button>
+        <button class="day-nav-today" id="day-today">今天</button>
+      </div>
+
+      <!-- Add Task -->
+      <div class="add-task-area">
+        <div class="add-task-row">
+          <input type="text" class="add-task-input" id="add-task-title" placeholder="✨ 添加新任务...">
+          <button class="btn-add" id="btn-add">添加</button>
         </div>
-        <button class="btn btn-primary" id="quick-add-btn" title="快速添加 (Ctrl+N)">+ 新建</button>
-        <div style="flex:1;"></div>
-        <select class="select" id="sort-select" style="width:auto;">
-          <option value="order">手动排序</option>
-          <option value="createdAt-desc">最新创建</option>
-          <option value="dueDate-asc">截止日期</option>
-          <option value="priority-desc">优先级</option>
-        </select>
-        <div class="filter-tabs" id="filter-tabs">
-          <button class="btn btn-secondary filter-btn active" data-filter="all">全部</button>
-          <button class="btn btn-secondary filter-btn" data-filter="active">进行中</button>
-          <button class="btn btn-secondary filter-btn" data-filter="completed">已完成</button>
+        <div class="add-task-extra" id="add-task-extra" style="display:none;">
+          <select id="add-category">
+            <option value="work">💼 办公</option>
+            <option value="life">🏠 生活</option>
+            <option value="sport">🏃 运动</option>
+            <option value="diet">🍽️ 饮食</option>
+          </select>
+          <select id="add-priority">
+            <option value="medium">🟡 普通</option>
+            <option value="high">🔴 紧急</option>
+            <option value="low">🟢 不急</option>
+          </select>
+          <input type="date" id="add-date">
+          <input type="number" id="add-progress" placeholder="进度%" min="0" max="100" style="width:70px;">
         </div>
       </div>
 
-      <!-- Quick Add Bar (hidden by default) -->
-      <div class="quick-add-bar" id="quick-add-bar" style="display:none;">
-        <input type="text" class="input" id="quick-add-input" placeholder="输入任务标题，回车确认...">
-        <select class="select" id="quick-add-category" style="width:120px;">
-          <!-- Populated by JS -->
+      <!-- Search & Filter -->
+      <div class="search-area">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="模糊搜索任务...">
+        </div>
+        <select class="filter-select" id="filter-status">
+          <option value="all">全部</option>
+          <option value="active">进行中</option>
+          <option value="completed">已完成</option>
         </select>
-        <select class="select" id="quick-add-priority" style="width:100px;">
-          <option value="high">🔴 高</option>
-          <option value="medium" selected>🟡 中</option>
-          <option value="low">🟢 低</option>
+        <select class="filter-select" id="filter-category">
+          <option value="all">所有分类</option>
         </select>
-        <button class="btn btn-primary" id="quick-add-confirm">添加</button>
-        <button class="btn btn-ghost" id="quick-add-cancel">取消</button>
       </div>
 
       <!-- Task List -->
       <div class="task-list-container" id="task-list">
         <div class="empty-state" id="empty-state">
-          <svg viewBox="0 0 120 120" width="120" height="120">
-            <circle cx="60" cy="45" r="8" fill="#D4EDE0"/>
-            <circle cx="45" cy="70" r="6" fill="#D4EDE0"/>
-            <circle cx="75" cy="70" r="6" fill="#D4EDE0"/>
-            <path d="M35 90 Q60 105 85 90" fill="none" stroke="#D4EDE0" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="60" cy="55" r="42" fill="none" stroke="#E8F0EB" stroke-width="1"/>
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle cx="30" cy="40" r="12" fill="#FDE8E8"/>
+            <circle cx="70" cy="40" r="14" fill="#F5E6D8"/>
+            <ellipse cx="50" cy="60" rx="30" ry="18" fill="#FFF0E8"/>
+            <circle cx="38" cy="35" r="2" fill="#5D4037"/>
+            <circle cx="66" cy="35" r="2" fill="#5D4037"/>
+            <path d="M40 50 Q50 58 60 50" fill="none" stroke="#5D4037" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          <div class="empty-title">从这里开始你的计划</div>
-          <div class="empty-desc">按 Ctrl+N 或点击 "+ 新建" 添加第一个待办</div>
+          <div class="empty-title">今天还没有计划哦~</div>
+          <div class="empty-desc">点击上方添加新任务吧 💕</div>
         </div>
       </div>
     </main>
@@ -91,23 +103,21 @@
     <aside class="detail-panel hidden" id="detail-panel">
       <div class="detail-panel-header">
         <span class="detail-panel-title">任务详情</span>
-        <button class="btn btn-ghost btn-icon" id="detail-close-btn">✕</button>
+        <button class="btn btn-ghost btn-icon" id="detail-close">✕</button>
       </div>
-      <div class="detail-panel-body" id="detail-panel-body">
-        <!-- Populated by task-detail.js -->
-      </div>
+      <div class="detail-panel-body" id="detail-panel-body"></div>
     </aside>
   </div>
 
-  <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Scripts -->
   <script src="../node_modules/chart.js/dist/chart.umd.min.js"></script>
   <script src="js/store.js"></script>
   <script src="js/themes.js"></script>
   <script src="js/animations.js"></script>
-  <script src="js/sidebar.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/gif-rotator.js"></script>
   <script src="js/search.js"></script>
   <script src="js/task-list.js"></script>
   <script src="js/task-detail.js"></script>
@@ -115,9 +125,7 @@
   <script src="js/settings.js"></script>
   <script src="js/app.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      window.App.init();
-    });
+    document.addEventListener('DOMContentLoaded', () => { window.App.init(); });
   </script>
 </body>
 </html>
