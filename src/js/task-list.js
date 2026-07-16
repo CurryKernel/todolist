@@ -235,6 +235,12 @@ class TaskListModule {
     });
   }
 
+  escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   _renderCard(todo, catMap) {
     const cat = catMap[todo.category] || {};
     const isOverdue = todo.dueDate && !todo.completed && new Date(todo.dueDate) < new Date();
@@ -244,6 +250,10 @@ class TaskListModule {
     const iconMap = { briefcase: '💼', home: '🏠', run: '🏃', utensils: '🍽️', folder: '📂' };
     const catIcon = iconMap[cat.icon] || '📂';
 
+    const safeTitle = this.escapeHtml(todo.title);
+    const safeCatName = this.escapeHtml(cat.name || '未分类');
+    const safeTags = todo.tags && todo.tags.length ? todo.tags.map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('') : '';
+
     return `
       <div class="task-card ${todo.completed ? 'completed' : ''}" data-id="${todo.id}" draggable="true">
         <span class="drag-handle" style="cursor:grab; color:var(--text-muted); font-size:14px;">⋮⋮</span>
@@ -251,13 +261,13 @@ class TaskListModule {
         <div class="priority-strip priority-${todo.priority}"></div>
         <div style="flex:1; min-width:0;">
           <div style="font-size:var(--text-sm); color:${isOverdue ? 'var(--danger)' : 'var(--text-primary)'}; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-            ${this._highlightMatch(todo.title)}
+            ${this._highlightMatch(safeTitle)}
             ${isOverdue ? ' ⚠️' : ''}
           </div>
           <div style="display:flex; gap:8px; margin-top:4px; align-items:center;">
-            <span style="font-size:var(--text-xs); color:var(--text-muted);">${catIcon} ${cat.name || '未分类'}</span>
+            <span style="font-size:var(--text-xs); color:var(--text-muted);">${catIcon} ${safeCatName}</span>
             ${dueDate ? `<span style="font-size:var(--text-xs); color:${isOverdue ? 'var(--danger)' : 'var(--text-muted)'};">📅 ${dueDate}</span>` : ''}
-            ${todo.tags && todo.tags.length ? todo.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+            ${safeTags}
           </div>
         </div>
       </div>
@@ -266,8 +276,9 @@ class TaskListModule {
 
   _highlightMatch(text) {
     if (!this.filterState.query) return text;
+    const safeText = this.escapeHtml(text);
     const escaped = this.filterState.query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark style="background:var(--accent-light);padding:0 2px;border-radius:2px;">$1</mark>');
+    return safeText.replace(new RegExp(`(${escaped})`, 'gi'), '<mark style="background:var(--accent-light);padding:0 2px;border-radius:2px;">$1</mark>');
   }
 
   _saveOrder() {

@@ -23,8 +23,8 @@ class AppStore {
 
   _debouncedSave() {
     if (this._saveTimer) clearTimeout(this._saveTimer);
-    this._saveTimer = setTimeout(() => {
-      this._saveTodos();
+    this._saveTimer = setTimeout(async () => {
+      try { await this._saveTodos(); } catch (e) { console.error('Save failed:', e); }
     }, 300);
   }
 
@@ -113,7 +113,8 @@ class AppStore {
 
   async addTodo(todoData) {
     const now = new Date().toISOString();
-    const maxOrder = this.todos.reduce((max, t) => Math.max(max, t.order || 0), -1);
+    // Increment all existing active todos' orders by 1 to make room at top
+    this.todos.forEach(t => { t.order = (t.order || 0) + 1; });
     const todo = {
       id: this._generateId(),
       title: todoData.title || '',
@@ -125,7 +126,7 @@ class AppStore {
       completedAt: null,
       createdAt: now,
       updatedAt: now,
-      order: todoData.order !== undefined ? todoData.order : maxOrder + 1,
+      order: 0,
       tags: todoData.tags || []
     };
     this.todos.unshift(todo);
@@ -214,6 +215,7 @@ class AppStore {
     await this._saveCategories();
     this._debouncedSave();
     this._emit('category-change', { action: 'delete', category: cat });
+    this._emit('change', { action: 'reorder' });
     return true;
   }
 

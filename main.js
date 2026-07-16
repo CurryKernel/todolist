@@ -67,18 +67,46 @@ function setupIPC() {
 
   ipcMain.handle('read-json', (_event, filename) => {
     if (!userDataPath) return null;
+    if (typeof filename !== 'string' || !/^[a-zA-Z0-9_\-]+\.json$/.test(filename)) {
+      console.error('Rejected invalid filename:', filename);
+      return null;
+    }
     try {
       const filePath = path.join(userDataPath, filename);
       if (!fs.existsSync(filePath)) return null;
       return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
     } catch (e) {
       console.error(`Read ${filename} failed:`, e);
+      // Try backup recovery
+      try {
+        const backupDir = path.join(userDataPath, 'backups');
+        if (fs.existsSync(backupDir)) {
+          const backupFiles = fs.readdirSync(backupDir)
+            .filter(f => f.startsWith(filename.replace('.json', '')))
+            .sort()
+            .reverse();
+          if (backupFiles.length > 0) {
+            const backupPath = path.join(backupDir, backupFiles[0]);
+            console.log(`Restoring from backup: ${backupFiles[0]}`);
+            const data = JSON.parse(fs.readFileSync(backupPath, 'utf-8'));
+            // Restore backup as current file
+            fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+            return data;
+          }
+        }
+      } catch (be) {
+        console.error('Backup recovery failed:', be);
+      }
       return null;
     }
   });
 
   ipcMain.handle('write-json', (_event, filename, data) => {
     if (!userDataPath) return false;
+    if (typeof filename !== 'string' || !/^[a-zA-Z0-9_\-]+\.json$/.test(filename)) {
+      console.error('Rejected invalid filename:', filename);
+      return false;
+    }
     try {
       const filePath = path.join(userDataPath, filename);
       fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
@@ -92,6 +120,10 @@ function setupIPC() {
 
   ipcMain.handle('file-exists', (_event, filename) => {
     if (!userDataPath) return false;
+    if (typeof filename !== 'string' || !/^[a-zA-Z0-9_\-]+\.json$/.test(filename)) {
+      console.error('Rejected invalid filename:', filename);
+      return false;
+    }
     return fs.existsSync(path.join(userDataPath, filename));
   });
 
@@ -106,13 +138,19 @@ function setupIPC() {
 }
 
 function createWindow() {
+  const config = loadConfig();
+  userDataPath = config.dataPath || '';
+
+  // Restore window bounds from config, with defaults
+  const windowBounds = config.windowBounds || { width: 1200, height: 800 };
+
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: windowBounds.width,
+    height: windowBounds.height,
     minWidth: 900,
     minHeight: 600,
     title: '源计划 - 王源主题待办清单',
-    icon: path.join(__dirname, 'src', 'assets', 'icons', 'icon.png'),
+    icon: path.join(__dirname, 'src', 'assets', 'icons', 'icon.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -124,12 +162,22 @@ function createWindow() {
     backgroundColor: '#F5F9F6'
   });
 
+  // Restore window position if available
+  if (windowBounds.x !== undefined && windowBounds.y !== undefined) {
+    mainWindow.setPosition(windowBounds.x, windowBounds.y);
+  }
+
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
 
-  const config = loadConfig();
-  userDataPath = config.dataPath || '';
+  // Save window bounds on close
+  mainWindow.on('close', () => {
+    const cfg = loadConfig();
+    const bounds = mainWindow.getBounds();
+    cfg.windowBounds = bounds;
+    saveConfig(cfg);
+  });
 
   if (userDataPath && fs.existsSync(userDataPath)) {
     backupTodos(userDataPath);
@@ -168,8 +216,7 @@ function createWindow() {
 
   setupIPC();
 
-  const config2 = loadConfig();
-  if (config2.firstRun || !userDataPath) {
+  if (config.firstRun || !userDataPath) {
     mainWindow.loadFile(path.join(__dirname, 'src', 'setup.html'));
   } else {
     mainWindow.loadFile(path.join(__dirname, 'src', 'splash.html'));

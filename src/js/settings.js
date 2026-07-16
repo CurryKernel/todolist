@@ -14,6 +14,7 @@ class SettingsPanelModule {
   }
 
   show() {
+    if (window.StatsPanel && window.StatsPanel.visible) window.StatsPanel.hide();
     this.visible = true;
     const panel = document.getElementById('detail-panel');
     const body = document.getElementById('detail-panel-body');

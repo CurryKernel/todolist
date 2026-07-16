@@ -18,6 +18,7 @@ class StatsPanelModule {
 
   show() {
     if (this.visible) return;
+    if (window.SettingsPanel && window.SettingsPanel.visible) window.SettingsPanel.hide();
     this.visible = true;
     this._renderPanel();
     // Delay chart rendering for smooth transition

@@ -182,7 +182,7 @@ class TaskDetailModule {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.innerHTML = `已删除 "<strong>${todo.title}</strong>" <button style="background:none;border:none;color:#7BC8A4;cursor:pointer;font-weight:600;margin-left:8px;" id="undo-delete-btn">撤销</button>`;
+      toast.innerHTML = `已删除 "<strong>${this._escapeHtml(todo.title)}</strong>" <button style="background:none;border:none;color:#7BC8A4;cursor:pointer;font-weight:600;margin-left:8px;" id="undo-delete-btn">撤销</button>`;
       container.appendChild(toast);
 
       document.getElementById('undo-delete-btn').addEventListener('click', async () => {
