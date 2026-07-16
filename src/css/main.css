@@ -124,7 +124,7 @@ html, body {
 }
 .quotes-hint {
   font-size: 10px; color: var(--text-muted);
-  margin-top: 4px; opacity: 0.6;
+  margin-top: 4px; opacity: 0.6; display: none;
 }
 
 .sidebar-footer-actions {
@@ -259,7 +259,7 @@ html, body {
   border-bottom: 1px solid var(--border-light);
 }
 .detail-panel-title { font-size: var(--text-base); font-weight: 600; color: var(--text-primary); }
-.detail-panel-body { flex: 1; overflow-y: auto; padding: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-md); }
+.detail-panel-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-md); max-width: 100%; word-wrap: break-word; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 5px; }
