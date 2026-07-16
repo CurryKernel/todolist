@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>源计划 - 初次设置</title>
+  <link rel="stylesheet" href="css/splash.css">
+</head>
+<body>
+  <div class="setup-container">
+    <div class="setup-card">
+      <div class="setup-icon">💚</div>
+      <h1 class="setup-title">欢迎使用源计划</h1>
+      <p class="setup-desc">
+        请选择一个文件夹来存储你的待办数据。<br>
+        数据将保存在你电脑本地，不会上传到任何地方。
+      </p>
+      <div class="setup-path">
+        <input type="text" id="path-input" placeholder="点击右侧按钮选择文件夹..." readonly>
+        <button id="browse-btn">浏览...</button>
+      </div>
+      <p class="setup-error" id="setup-error">请先选择数据存储位置</p>
+      <button class="setup-start-btn" id="start-btn" disabled>开始使用</button>
+    </div>
+  </div>
+  <script>
+    let selectedPath = '';
+
+    document.getElementById('browse-btn').addEventListener('click', async () => {
+      const path = await window.electronAPI.selectDataPath();
+      if (path) {
+        selectedPath = path;
+        document.getElementById('path-input').value = path;
+        document.getElementById('start-btn').disabled = false;
+        document.getElementById('setup-error').style.display = 'none';
+      }
+    });
+
+    document.getElementById('start-btn').addEventListener('click', async () => {
+      if (!selectedPath) {
+        document.getElementById('setup-error').style.display = 'block';
+        return;
+      }
+      await window.electronAPI.setDataPath(selectedPath);
+
+      // Initialize data files
+      const resp = await fetch('data/defaults.json');
+      const defaults = await resp.json();
+      await window.electronAPI.writeJSON('categories.json', { categories: defaults.categories });
+      await window.electronAPI.writeJSON('todos.json', defaults.todos);
+      await window.electronAPI.writeJSON('settings.json', {
+        ...defaults.settings,
+        dataPath: selectedPath,
+        firstRun: false
+      });
+
+      // Show welcome then go to main
+      document.querySelector('.setup-card').innerHTML = `
+        <div class="setup-icon">✨</div>
+        <h1 class="setup-title">设置完成！</h1>
+        <p class="setup-desc">源计划，陪你元气每一天 💚</p>
+        <svg width="120" height="120" viewBox="0 0 120 120" style="margin: 16px 0; opacity: 0.6;">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#7BC8A4" stroke-width="1.5"/>
+          <path d="M40 55 Q60 30 80 55" fill="none" stroke="#7BC8A4" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="60" cy="70" r="20" fill="#D4EDE0"/>
+          <text x="60" y="76" text-anchor="middle" font-size="18" fill="#5BA88A">源</text>
+        </svg>
+      `;
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

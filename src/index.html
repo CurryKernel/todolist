@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="theme-morning">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>源计划 - 王源主题待办清单</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-avatar" id="sidebar-avatar">🎵</div>
+        <div class="sidebar-greeting" id="sidebar-greeting">
+          源气满满<br><strong>今天也要加油 💚</strong>
+        </div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <nav class="sidebar-nav" id="category-nav">
+        <!-- Populated by sidebar.js -->
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-mini-stats" id="mini-stats" title="点击查看完整统计">
+          <div>今日完成</div>
+          <div class="stats-number" id="mini-stats-number">0/0</div>
+        </div>
+        <button class="btn btn-secondary" id="settings-btn" style="width:100%;">
+          ⚙️ 设置
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <div class="toolbar" id="toolbar">
+        <span class="toolbar-title" id="toolbar-title">全部待办</span>
+        <div class="search-box" id="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="input" id="search-input" placeholder="搜索待办事项...">
+          <button class="search-clear" id="search-clear">✕</button>
+        </div>
+        <button class="btn btn-primary" id="quick-add-btn" title="快速添加 (Ctrl+N)">+ 新建</button>
+        <div style="flex:1;"></div>
+        <select class="select" id="sort-select" style="width:auto;">
+          <option value="order">手动排序</option>
+          <option value="createdAt-desc">最新创建</option>
+          <option value="dueDate-asc">截止日期</option>
+          <option value="priority-desc">优先级</option>
+        </select>
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="btn btn-secondary filter-btn active" data-filter="all">全部</button>
+          <button class="btn btn-secondary filter-btn" data-filter="active">进行中</button>
+          <button class="btn btn-secondary filter-btn" data-filter="completed">已完成</button>
+        </div>
+      </div>
+
+      <!-- Quick Add Bar (hidden by default) -->
+      <div class="quick-add-bar" id="quick-add-bar" style="display:none;">
+        <input type="text" class="input" id="quick-add-input" placeholder="输入任务标题，回车确认...">
+        <select class="select" id="quick-add-category" style="width:120px;">
+          <!-- Populated by JS -->
+        </select>
+        <select class="select" id="quick-add-priority" style="width:100px;">
+          <option value="high">🔴 高</option>
+          <option value="medium" selected>🟡 中</option>
+          <option value="low">🟢 低</option>
+        </select>
+        <button class="btn btn-primary" id="quick-add-confirm">添加</button>
+        <button class="btn btn-ghost" id="quick-add-cancel">取消</button>
+      </div>
+
+      <!-- Task List -->
+      <div class="task-list-container" id="task-list">
+        <div class="empty-state" id="empty-state">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle cx="60" cy="45" r="8" fill="#D4EDE0"/>
+            <circle cx="45" cy="70" r="6" fill="#D4EDE0"/>
+            <circle cx="75" cy="70" r="6" fill="#D4EDE0"/>
+            <path d="M35 90 Q60 105 85 90" fill="none" stroke="#D4EDE0" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="60" cy="55" r="42" fill="none" stroke="#E8F0EB" stroke-width="1"/>
+          </svg>
+          <div class="empty-title">从这里开始你的计划</div>
+          <div class="empty-desc">按 Ctrl+N 或点击 "+ 新建" 添加第一个待办</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Detail Panel -->
+    <aside class="detail-panel hidden" id="detail-panel">
+      <div class="detail-panel-header">
+        <span class="detail-panel-title">任务详情</span>
+        <button class="btn btn-ghost btn-icon" id="detail-close-btn">✕</button>
+      </div>
+      <div class="detail-panel-body" id="detail-panel-body">
+        <!-- Populated by task-detail.js -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/task-list.js"></script>
+  <script src="js/task-detail.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.App.init();
+    });
+  </script>
+</body>
+</html>

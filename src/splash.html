@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>源计划</title>
+  <link rel="stylesheet" href="css/splash.css">
+</head>
+<body>
+  <div class="splash-container">
+    <div class="splash-content">
+      <div class="splash-logo">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="38" fill="none" stroke="#7BC8A4" stroke-width="2"/>
+          <circle cx="40" cy="40" r="28" fill="#D4EDE0"/>
+          <text x="40" y="46" text-anchor="middle" font-size="24" fill="#5BA88A">源</text>
+        </svg>
+      </div>
+      <h1 class="splash-title">源计划</h1>
+      <p class="splash-subtitle">Yuan Plan</p>
+      <div class="splash-quote" id="splash-quote">
+        <p class="quote-text" id="quote-text"></p>
+        <p class="quote-source" id="quote-source"></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function loadQuote() {
+      try {
+        const response = await fetch('data/quotes.json');
+        const data = await response.json();
+        const quote = data.quotes[Math.floor(Math.random() * data.quotes.length)];
+        document.getElementById('quote-text').textContent = `"${quote.text}"`;
+        document.getElementById('quote-source').textContent = `— ${quote.source}`;
+      } catch (e) {
+        document.getElementById('quote-text').textContent = '"源气满满，今天也要加油"';
+        document.getElementById('quote-source').textContent = '— 源计划';
+      }
+    }
+
+    loadQuote();
+
+    setTimeout(() => {
+      document.querySelector('.splash-container').style.opacity = '0';
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 400);
+    }, 2000);
+  </script>
+</body>
+</html>
