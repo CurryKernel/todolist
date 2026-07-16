@@ -1,16 +1,18 @@
 class ThemeManager {
   constructor() {
     this.THEMES = ['morning', 'afternoon', 'night'];
-    this.THEME_NAMES = { morning: '晨露', afternoon: '午后', night: '夜幕' };
-    this.THEME_ICONS = { morning: '🌿', afternoon: '☀️', night: '🌙' };
+    this.THEME_NAMES = { morning: '💚 王源绿', afternoon: '🎀 一二布布', night: '🌙 护眼模式' };
+    this.THEME_ICONS = { morning: '💚', afternoon: '🎀', night: '🌙' };
     this.currentTheme = 'morning';
   }
 
   async init() {
-    const settings = await window.electronAPI.readJSON('settings.json');
-    if (settings && settings.theme && this.THEMES.includes(settings.theme)) {
-      this.currentTheme = settings.theme;
-    }
+    try {
+      const settings = await window.electronAPI.readJSON('settings.json');
+      if (settings && settings.theme && this.THEMES.includes(settings.theme)) {
+        this.currentTheme = settings.theme;
+      }
+    } catch (e) {}
     this.apply();
   }
 

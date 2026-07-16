@@ -19,9 +19,10 @@ class SettingsPanelModule {
       <div>
         <label style="font-size:12px;color:var(--text-muted);">🎨 主题</label>
         <div style="display:flex;gap:6px;margin-top:4px;" id="theme-btns">
-          <button class="btn btn-primary" data-theme="morning" style="flex:1;padding:10px;">🌿 晨露</button>
-          <button class="btn btn-secondary" data-theme="afternoon" style="flex:1;padding:10px;">☀️ 午后</button>
-          <button class="btn btn-secondary" data-theme="night" style="flex:1;padding:10px;">🌙 夜幕</button>
+          ${window.ThemeManager.getThemes().map(t => `
+            <button class="btn ${t.id === window.ThemeManager.getCurrent().id ? 'btn-primary' : 'btn-secondary'}"
+                    data-theme="${t.id}" style="flex:1;padding:10px;font-size:13px;">${t.icon} ${t.name}</button>
+          `).join('')}
         </div>
       </div>
       <div>

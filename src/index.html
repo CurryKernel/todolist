@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>源计划 - 一二布布主题待办清单</title>
+  <title>源计划</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
@@ -26,6 +26,12 @@
       </div>
       <div class="gif-area" id="gif-area">
         <img id="gif-img" src="" alt="一二布布">
+      </div>
+      <!-- Wang Yuan Quotes -->
+      <div class="quotes-widget" id="quotes-widget">
+        <div class="quotes-text" id="quotes-text">"生而自由，爱而无畏"</div>
+        <div class="quotes-source" id="quotes-source">— 王源</div>
+        <div class="quotes-hint">双击刷新</div>
       </div>
       <div class="sidebar-footer-actions">
         <button id="btn-settings">⚙️ 设置</button>
@@ -50,19 +56,19 @@
           <button class="btn-add" id="btn-add">添加</button>
         </div>
         <div class="add-task-extra" id="add-task-extra" style="display:none;">
-          <select id="add-category">
+          <select class="nice-select" id="add-category" style="min-width:100px;">
             <option value="work">💼 办公</option>
             <option value="life">🏠 生活</option>
             <option value="sport">🏃 运动</option>
             <option value="diet">🍽️ 饮食</option>
           </select>
-          <select id="add-priority">
+          <select class="nice-select" id="add-priority" style="min-width:100px;">
             <option value="medium">🟡 普通</option>
             <option value="high">🔴 紧急</option>
             <option value="low">🟢 不急</option>
           </select>
-          <input type="date" id="add-date">
-          <input type="number" id="add-progress" placeholder="进度%" min="0" max="100" style="width:70px;">
+          <input type="date" class="input" id="add-date" style="width:130px;">
+          <input type="number" class="input" id="add-progress" placeholder="进度%" min="0" max="100" style="width:70px;">
         </div>
       </div>
 
@@ -72,12 +78,12 @@
           <span class="search-icon">🔍</span>
           <input type="text" id="search-input" placeholder="模糊搜索任务...">
         </div>
-        <select class="filter-select" id="filter-status">
+        <select class="nice-select" id="filter-status" style="min-width:100px;">
           <option value="all">全部</option>
           <option value="active">进行中</option>
           <option value="completed">已完成</option>
         </select>
-        <select class="filter-select" id="filter-category">
+        <select class="nice-select" id="filter-category" style="min-width:110px;">
           <option value="all">所有分类</option>
         </select>
       </div>
@@ -118,6 +124,7 @@
   <script src="js/calendar.js"></script>
   <script src="js/clock.js"></script>
   <script src="js/gif-rotator.js"></script>
+  <script src="js/quotes.js"></script>
   <script src="js/search.js"></script>
   <script src="js/task-list.js"></script>
   <script src="js/task-detail.js"></script>

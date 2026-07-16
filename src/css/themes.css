@@ -1,6 +1,62 @@
-/* ===== 一二布布 · 温暖治愈主题 ===== */
+/* ===== 源计划 主题系统 ===== */
+/* 王源绿(默认) + 一二布布粉(切换) */
 
+/* 王源绿 晨露 Morning (default) */
 :root {
+  --bg-primary: #F5F9F6;
+  --bg-sidebar: #E8F3EC;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FBFA;
+  --bg-input: #F0F7F3;
+  --accent: #7BC8A4;
+  --accent-hover: #5BA88A;
+  --accent-light: #D4EDE0;
+  --accent-ultra-light: #EDF7F1;
+  --brown: #7BC8A4;
+  --brown-hover: #5BA88A;
+  --brown-light: #D4EDE0;
+  --brown-ultra-light: #EDF7F1;
+  --text-primary: #2C3E35;
+  --text-secondary: #6B7F73;
+  --text-muted: #A0B5A8;
+  --border: #D4E5DA;
+  --border-light: #E8F0EB;
+  --shadow-sm: 0 1px 4px rgba(44, 62, 53, 0.06);
+  --shadow-md: 0 2px 12px rgba(44, 62, 53, 0.08);
+  --shadow-lg: 0 4px 20px rgba(44, 62, 53, 0.10);
+  --danger: #E8A87C;
+  --danger-bg: #FFF0EF;
+  --warning: #E8C87C;
+  --warning-bg: #FFF8F0;
+  --success: #7BC8A4;
+  --success-bg: #F0FAF5;
+  --cal-today-bg: #D4EDE0;
+  --cal-today-text: #5BA88A;
+  --cal-selected-bg: #7BC8A4;
+  --cal-selected-text: #FFFFFF;
+  --cal-has-task: #7BC8A4;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  --font-main: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', monospace;
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+}
+
+/* 一二布布 温暖午后 Afternoon (alternate) */
+.theme-afternoon {
   --bg-primary: #FFF8F3;
   --bg-sidebar: #FFF0E8;
   --bg-card: #FFFFFF;
@@ -33,22 +89,31 @@
   --cal-selected-bg: #C4956A;
   --cal-selected-text: #FFFFFF;
   --cal-has-task: #E8A0A0;
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
-  --font-main: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
-  --font-mono: 'SF Mono', 'Cascadia Code', monospace;
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-base: 15px;
-  --text-lg: 18px;
-  --text-xl: 22px;
-  --text-2xl: 28px;
+}
+
+/* 夜幕 Night — 护眼深色 */
+.theme-night {
+  --bg-primary: #EAF2ED;
+  --bg-sidebar: #D2E2D8;
+  --bg-card: #F5F9F6;
+  --bg-card-hover: #EDF4EF;
+  --bg-input: #E4EEE7;
+  --accent: #5AA882;
+  --accent-hover: #3E8E68;
+  --accent-light: #BCDBCC;
+  --accent-ultra-light: #E2F0E8;
+  --brown: #5AA882;
+  --brown-hover: #3E8E68;
+  --brown-light: #BCDBCC;
+  --brown-ultra-light: #E2F0E8;
+  --text-primary: #26362C;
+  --text-secondary: #566B5E;
+  --text-muted: #889C8F;
+  --border: #BCD0C4;
+  --border-light: #D4E2D9;
+  --cal-today-bg: #BCDBCC;
+  --cal-today-text: #3E8E68;
+  --cal-selected-bg: #5AA882;
+  --cal-selected-text: #FFFFFF;
+  --cal-has-task: #5AA882;
 }

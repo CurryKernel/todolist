@@ -10,6 +10,7 @@ class App {
     if (window.Clock) window.Clock.init();
     if (window.Calendar) window.Calendar.init();
     if (window.GifRotator) window.GifRotator.init();
+    if (window.Quotes) window.Quotes.init();
     if (window.TaskList) window.TaskList.init();
     if (window.TaskDetail) window.TaskDetail.init();
     if (window.SearchBar) window.SearchBar.init();
