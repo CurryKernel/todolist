@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="theme-morning">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>源计划 · 悬浮</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/floating.css">
+</head>
+<body>
+  <div class="float-container" id="float-container">
+    <!-- Drag handle -->
+    <div class="float-header" id="float-header">
+      <span class="float-title">📋 今日待办</span>
+      <button class="float-close-btn" id="float-restore" title="还原窗口">⤢</button>
+    </div>
+
+    <!-- Today's tasks -->
+    <div class="float-body" id="float-body">
+      <div class="float-loading">加载中...</div>
+    </div>
+
+    <!-- Resize handle -->
+    <div class="float-resize-handle"></div>
+  </div>
+
+  <script src="js/store.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/floating.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.Floating.init();
+    });
+  </script>
+</body>
+</html>

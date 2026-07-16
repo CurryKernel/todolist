@@ -20,5 +20,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const handler = (_event, action) => callback(action);
     ipcRenderer.on('menu-action', handler);
     return () => ipcRenderer.removeListener('menu-action', handler);
+  },
+  // Floating window
+  openFloatingWindow: () => ipcRenderer.invoke('open-floating-window'),
+  closeFloatingWindow: () => ipcRenderer.invoke('close-floating-window'),
+  onRestoreFromFloating: (callback) => {
+    const handler = () => callback();
+    ipcRenderer.on('restore-from-floating', handler);
+    return () => ipcRenderer.removeListener('restore-from-floating', handler);
   }
 });

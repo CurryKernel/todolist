@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 let mainWindow = null;
+let floatingWindow = null;
 let userDataPath = null;
 const CONFIG_PATH = path.join(app.getPath('userData'), 'config.json');
 
@@ -135,6 +136,24 @@ function setupIPC() {
     else mainWindow.maximize();
   });
   ipcMain.handle('close-window', () => mainWindow.close());
+
+  // Floating window
+  ipcMain.handle('open-floating-window', () => {
+    if (floatingWindow) return true;
+    createFloatingWindow();
+    mainWindow.hide();
+    return true;
+  });
+
+  ipcMain.handle('close-floating-window', () => {
+    if (floatingWindow) {
+      floatingWindow.close();
+      floatingWindow = null;
+    }
+    mainWindow.show();
+    mainWindow.focus();
+    return true;
+  });
 }
 
 function createWindow() {
@@ -220,6 +239,37 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, 'src', 'splash.html'));
   }
+}
+
+function createFloatingWindow() {
+  floatingWindow = new BrowserWindow({
+    width: 320,
+    height: 420,
+    minWidth: 240,
+    minHeight: 200,
+    maxWidth: 600,
+    maxHeight: 800,
+    title: '源计划 · 悬浮',
+    frame: false,
+    alwaysOnTop: true,
+    resizable: true,
+    skipTaskbar: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: false
+    },
+    backgroundColor: '#F5F9F6'
+  });
+
+  floatingWindow.loadFile(path.join(__dirname, 'src', 'floating.html'));
+
+  floatingWindow.on('closed', () => {
+    floatingWindow = null;
+    mainWindow.show();
+    mainWindow.focus();
+  });
 }
 
 app.whenReady().then(createWindow);

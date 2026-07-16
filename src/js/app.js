@@ -21,6 +21,18 @@ class App {
     this.initialized = true;
 
     // Settings/Stats panel buttons
+    // Float button
+    document.getElementById('btn-float').addEventListener('click', () => {
+      window.electronAPI.openFloatingWindow();
+    });
+    // Restore from floating
+    if (window.electronAPI.onRestoreFromFloating) {
+      window.electronAPI.onRestoreFromFloating(() => {
+        // Refresh data when returning from floating mode
+        if (window.TaskList) window.TaskList.render();
+      });
+    }
+
     document.getElementById('btn-settings').addEventListener('click', () => {
       if (window.SettingsPanel) window.SettingsPanel.toggle();
     });
