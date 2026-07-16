@@ -37,9 +37,19 @@ body {
 }
 .float-header:active { cursor: grabbing; }
 .float-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px; font-weight: 600;
+  flex: 1; text-align: center;
 }
+.float-nav-btn {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,0.2);
+  color: #fff; cursor: pointer;
+  font-size: 10px; display: flex;
+  align-items: center; justify-content: center;
+  transition: background 150ms;
+  -webkit-app-region: no-drag;
+}
+.float-nav-btn:hover { background: rgba(255,255,255,0.4); }
 .float-close-btn {
   width: 24px; height: 24px;
   border-radius: 50%;

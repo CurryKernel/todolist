@@ -55,7 +55,7 @@ class SettingsPanelModule {
       </div>
 
       <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-light);text-align:center;">
-        <p style="font-size:13px;color:var(--text-secondary);">源计划 v1.0.0</p>
+        <p style="font-size:13px;color:var(--text-secondary);">源计划 v1.0.1</p>
         <p style="font-size:11px;color:var(--text-muted);margin-top:2px;cursor:default;" id="dev-credit">Dev by Qiwen</p>
         <p style="font-size:10px;color:var(--text-muted);">Made with 💚 for 小汤圆</p>
       </div>`;

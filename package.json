@@ -1,6 +1,6 @@
 {
   "name": "yuan-plan",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "源计划 - 王源主题待办清单",
   "main": "main.js",
   "scripts": {

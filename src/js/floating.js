@@ -1,6 +1,23 @@
 class FloatingModule {
   constructor() {
     this.body = document.getElementById('float-body');
+    this.offset = 0; // 0 = today, -1 = yesterday, etc.
+  }
+
+  _todayStr() {
+    const d = new Date();
+    d.setDate(d.getDate() + this.offset);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  _label() {
+    if (this.offset === 0) return '📋 今日待办';
+    if (this.offset === -1) return '📋 昨日待办';
+    if (this.offset === 1) return '📋 明日待办';
+    const d = new Date(); d.setDate(d.getDate() + this.offset);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    return `📋 ${m}月${day}日`;
   }
 
   async init() {
@@ -9,7 +26,17 @@ class FloatingModule {
     this.render();
     window.store.on('change', () => this.render());
 
-    // Restore button → close floating, show main window
+    // Day navigation
+    document.getElementById('float-prev').addEventListener('click', () => {
+      this.offset--;
+      this.render();
+    });
+    document.getElementById('float-next').addEventListener('click', () => {
+      this.offset++;
+      this.render();
+    });
+
+    // Restore button
     document.getElementById('float-restore').addEventListener('click', () => {
       window.electronAPI.closeFloatingWindow();
     });
@@ -27,7 +54,6 @@ class FloatingModule {
   }
 
   _showContextMenu(x, y) {
-    // Remove existing
     const old = document.querySelector('.float-context');
     if (old) old.remove();
 
@@ -37,6 +63,7 @@ class FloatingModule {
     menu.style.top = y + 'px';
     menu.innerHTML = `
       <div class="float-context-item" data-action="restore">⤢ 还原窗口</div>
+      <div class="float-context-item" data-action="today">📋 回到今天</div>
       <div class="float-context-item" data-action="refresh">🔄 刷新</div>
       <div class="float-context-item" data-action="quit">✕ 退出</div>
     `;
@@ -46,6 +73,7 @@ class FloatingModule {
       const action = e.target.dataset.action;
       menu.remove();
       if (action === 'restore') window.electronAPI.closeFloatingWindow();
+      else if (action === 'today') { this.offset = 0; this.render(); }
       else if (action === 'refresh') this.render();
       else if (action === 'quit') window.electronAPI.closeWindow();
     });
@@ -54,23 +82,19 @@ class FloatingModule {
   }
 
   render() {
-    const today = new Date();
-    const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+    const dateStr = this._todayStr();
+    document.getElementById('float-title').textContent = this._label();
 
     const todos = window.store.getTodos().filter(t => {
-      if (t.dueDate) return t.dueDate.startsWith(todayStr);
-      return t.createdAt && t.createdAt.startsWith(todayStr);
+      if (t.dueDate) return t.dueDate.startsWith(dateStr);
+      return t.createdAt && t.createdAt.startsWith(dateStr);
     });
-
-    const cats = window.store.getCategories();
-    const catMap = {};
-    cats.forEach(c => { catMap[c.id] = c; });
 
     if (todos.length === 0) {
       this.body.innerHTML = `
         <div class="float-empty">
           <div class="float-empty-icon">✨</div>
-          <div>今天没有待办事项</div>
+          <div>${this.offset === 0 ? '今天没有待办事项' : '这天没有待办事项'}</div>
           <div style="font-size:10px;margin-top:2px;opacity:0.7;">享受美好的一天吧 💚</div>
         </div>`;
       return;
@@ -82,7 +106,6 @@ class FloatingModule {
 
     let html = '';
     sorted.forEach(t => {
-      const cat = catMap[t.category] || {};
       html += `
       <div class="float-task ${t.completed ? 'completed' : ''}" data-id="${t.id}">
         <div class="float-check ${t.completed ? 'done' : ''}"></div>
@@ -93,7 +116,6 @@ class FloatingModule {
 
     this.body.innerHTML = html;
 
-    // Checkbox toggle
     this.body.querySelectorAll('.float-check').forEach(cb => {
       cb.addEventListener('click', async (e) => {
         e.stopPropagation();
@@ -104,11 +126,9 @@ class FloatingModule {
       });
     });
 
-    // Click task → toggle complete (simpler for floating mode)
     this.body.querySelectorAll('.float-task').forEach(card => {
       card.addEventListener('click', async () => {
-        const id = card.dataset.id;
-        await window.store.toggleTodo(id);
+        await window.store.toggleTodo(card.dataset.id);
       });
     });
   }
