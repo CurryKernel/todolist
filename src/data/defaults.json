@@ -1,0 +1,24 @@
+{
+  "categories": [
+    {"id": "work",    "name": "办公", "icon": "briefcase", "color": "#7BC8A4", "order": 0, "builtin": true},
+    {"id": "life",    "name": "生活", "icon": "home",      "color": "#8BC34A", "order": 1, "builtin": true},
+    {"id": "sport",   "name": "运动", "icon": "run",       "color": "#66BB6A", "order": 2, "builtin": true},
+    {"id": "diet",    "name": "饮食", "icon": "utensils",  "color": "#81C784", "order": 3, "builtin": true}
+  ],
+  "settings": {
+    "dataPath": "",
+    "theme": "morning",
+    "wangYuanMode": true,
+    "autoBackup": true,
+    "firstRun": true,
+    "sidebarCollapsed": false,
+    "detailPanelOpen": false,
+    "currentFilter": "all",
+    "language": "zh-CN"
+  },
+  "todos": {
+    "version": "1.0",
+    "lastModified": "",
+    "items": []
+  }
+}
