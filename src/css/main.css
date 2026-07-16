@@ -223,20 +223,27 @@ html, body {
   position: relative; flex: 1;
 }
 .search-input-wrap input {
-  width: 100%; padding: 8px 12px 8px 34px;
-  border: 2px solid var(--border); border-radius: var(--radius-xl);
+  width: 100%; padding: 9px 12px 9px 34px;
+  border: 2px solid var(--border); border-radius: 20px;
   font-size: var(--text-sm); font-family: inherit;
   background: var(--bg-input); color: var(--text-primary);
   outline: none; transition: border-color 200ms ease;
 }
 .search-input-wrap input:focus { border-color: var(--accent); }
-.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
-.filter-select {
-  padding: 8px 12px; border: 2px solid var(--border);
-  border-radius: var(--radius-md); font-size: var(--text-xs);
-  font-family: inherit; background: var(--bg-input);
-  color: var(--text-primary); outline: none; cursor: pointer;
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; }
+
+/* Search area selects — match input style */
+.search-area .nice-select {
+  padding: 9px 32px 9px 12px;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  font-size: var(--text-sm); font-family: inherit;
+  background: var(--bg-input); color: var(--text-primary);
+  outline: none; cursor: pointer;
+  transition: border-color 200ms ease;
 }
+.search-area .nice-select:hover { border-color: var(--accent); }
+.search-area .nice-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
 
 /* Task List */
 .task-list-container {
