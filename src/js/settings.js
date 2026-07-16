@@ -56,7 +56,7 @@ class SettingsPanelModule {
 
       <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-light);text-align:center;">
         <p style="font-size:13px;color:var(--text-secondary);">源计划 v1.0.0</p>
-        <p style="font-size:11px;color:var(--text-muted);margin-top:2px;">王源主题 · 一二布布 · 温暖治愈</p>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:2px;cursor:default;" id="dev-credit">Dev by Qiwen</p>
         <p style="font-size:10px;color:var(--text-muted);">Made with 💚 for 小汤圆</p>
       </div>`;
 
@@ -68,6 +68,30 @@ class SettingsPanelModule {
       await window.store.saveSettings({ theme: btn.dataset.theme });
       this.show();
     });
+
+    // Easter egg: click "Dev by Qiwen" 5 times
+    let clickCount = 0;
+    const creditEl = document.getElementById('dev-credit');
+    if (creditEl) {
+      creditEl.addEventListener('click', () => {
+        clickCount++;
+        if (clickCount >= 5) {
+          clickCount = 0;
+          const overlay = document.createElement('div');
+          overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;';
+          overlay.innerHTML = `
+            <div style="background:var(--bg-card);border-radius:20px;padding:40px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.3);animation:fadeIn 300ms ease;max-width:360px;">
+              <div style="font-size:48px;margin-bottom:16px;">💕</div>
+              <div style="font-size:20px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Love Hannah 小董同学</div>
+              <div style="font-size:14px;color:var(--text-muted);margin-bottom:20px;">— Qiwen 💚</div>
+              <button class="btn btn-primary" style="padding:10px 32px;font-size:14px;">知道了 💝</button>
+            </div>`;
+          document.body.appendChild(overlay);
+          overlay.querySelector('button').addEventListener('click', () => overlay.remove());
+          overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+        }
+      });
+    }
 
     // Change path
     document.getElementById('set-chg-path').addEventListener('click', async () => {
