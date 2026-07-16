@@ -6,7 +6,7 @@ class App {
   async init() {
     if (this.initialized) return;
     await window.store.init();
-    await window.ThemeManager.init();
+    if (window.ThemeManager) await window.ThemeManager.init();
     this.initialized = true;
 
     // Initialize UI modules

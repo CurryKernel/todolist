@@ -29,25 +29,41 @@ class AppStore {
   }
 
   async _saveTodos() {
-    const data = {
-      version: '1.0',
-      lastModified: new Date().toISOString(),
-      items: this.todos
-    };
-    await window.electronAPI.writeJSON('todos.json', data);
+    try {
+      const data = {
+        version: '1.0',
+        lastModified: new Date().toISOString(),
+        items: [...this.todos]
+      };
+      await window.electronAPI.writeJSON('todos.json', data);
+    } catch (err) {
+      console.error('Failed to save todos:', err);
+    }
   }
 
   async _saveCategories() {
-    await window.electronAPI.writeJSON('categories.json', { categories: this.categories });
+    try {
+      await window.electronAPI.writeJSON('categories.json', { categories: this.categories });
+    } catch (err) {
+      console.error('Failed to save categories:', err);
+    }
   }
 
   async _saveSettings() {
-    await window.electronAPI.writeJSON('settings.json', this.settings);
+    try {
+      await window.electronAPI.writeJSON('settings.json', this.settings);
+    } catch (err) {
+      console.error('Failed to save settings:', err);
+    }
   }
 
   async init() {
-    // Load settings
-    this.settings = await window.electronAPI.readJSON('settings.json');
+    try {
+      // Load settings
+      this.settings = await window.electronAPI.readJSON('settings.json');
+    } catch (err) {
+      console.warn('Could not load settings, using defaults:', err);
+    }
     if (!this.settings) {
       this.settings = {
         dataPath: '', theme: 'morning', wangYuanMode: true,
@@ -56,13 +72,23 @@ class AppStore {
       };
     }
 
-    // Load todos
-    const todosData = await window.electronAPI.readJSON('todos.json');
-    this.todos = (todosData && todosData.items) ? todosData.items : [];
+    try {
+      // Load todos
+      const todosData = await window.electronAPI.readJSON('todos.json');
+      this.todos = (todosData && todosData.items) ? todosData.items : [];
+    } catch (err) {
+      console.warn('Could not load todos, starting fresh:', err);
+      this.todos = [];
+    }
 
-    // Load categories
-    const catData = await window.electronAPI.readJSON('categories.json');
-    this.categories = (catData && catData.categories) ? catData.categories : [];
+    try {
+      // Load categories
+      const catData = await window.electronAPI.readJSON('categories.json');
+      this.categories = (catData && catData.categories) ? catData.categories : [];
+    } catch (err) {
+      console.warn('Could not load categories, using defaults:', err);
+      this.categories = [];
+    }
 
     // Initialize defaults if empty
     if (this.categories.length === 0) {
@@ -195,9 +221,14 @@ class AppStore {
 
   async saveSettings(newSettings) {
     this.settings = { ...this.settings, ...newSettings };
-    await this._saveSettings();
-    this._emit('settings-change', this.settings);
-    return true;
+    try {
+      await this._saveSettings();
+      this._emit('settings-change', this.settings);
+      return true;
+    } catch (err) {
+      console.error('Failed to save settings:', err);
+      return false;
+    }
   }
 }
 
