@@ -1,0 +1,72 @@
+/* ===== 源·薄荷 主题系统 ===== */
+
+/* 晨露 Morning (default) — 白天办公 */
+.theme-morning, :root {
+  --bg-primary: #F5F9F6;
+  --bg-sidebar: #E8F3EC;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FBFA;
+  --bg-input: #F0F7F3;
+  --accent: #7BC8A4;
+  --accent-hover: #5BA88A;
+  --accent-light: #D4EDE0;
+  --accent-ultra-light: #EDF7F1;
+  --text-primary: #2C3E35;
+  --text-secondary: #6B7F73;
+  --text-muted: #A0B5A8;
+  --border: #D4E5DA;
+  --border-light: #E8F0EB;
+  --danger: #E8A87C;
+  --danger-hover: #D49165;
+  --warning: #E8C87C;
+  --warning-bg: #FDF6E8;
+  --success: #7BC8A4;
+  --shadow-sm: 0 1px 3px rgba(44, 62, 53, 0.04);
+  --shadow-md: 0 2px 8px rgba(44, 62, 53, 0.06);
+  --shadow-lg: 0 4px 16px rgba(44, 62, 53, 0.08);
+  --splash-gradient: linear-gradient(135deg, #E8F3EC 0%, #F5F9F6 40%, #D4EDE0 100%);
+}
+
+/* 午后 Afternoon — 全天通用 */
+.theme-afternoon {
+  --bg-primary: #F0F7F2;
+  --bg-sidebar: #DCE8E0;
+  --bg-card: #FAFCFA;
+  --bg-card-hover: #F2F7F4;
+  --bg-input: #EBF3EE;
+  --accent: #6AB892;
+  --accent-hover: #4A9E78;
+  --accent-light: #C8E6D4;
+  --accent-ultra-light: #E8F4EC;
+  --text-primary: #2A3A30;
+  --text-secondary: #5F7367;
+  --text-muted: #94A89B;
+  --border: #C8DCD0;
+  --border-light: #DEE8E1;
+  --danger: #E09E70;
+  --warning: #E0BE70;
+  --success: #6AB892;
+  --splash-gradient: linear-gradient(135deg, #DCE8E0 0%, #F0F7F2 40%, #C8E6D4 100%);
+}
+
+/* 夜幕 Night — 夜间护眼 */
+.theme-night {
+  --bg-primary: #EAF2ED;
+  --bg-sidebar: #D2E2D8;
+  --bg-card: #F5F9F6;
+  --bg-card-hover: #EDF4EF;
+  --bg-input: #E4EEE7;
+  --accent: #5AA882;
+  --accent-hover: #3E8E68;
+  --accent-light: #BCDBCC;
+  --accent-ultra-light: #E2F0E8;
+  --text-primary: #26362C;
+  --text-secondary: #566B5E;
+  --text-muted: #889C8F;
+  --border: #BCD0C4;
+  --border-light: #D4E2D9;
+  --danger: #D49266;
+  --warning: #D4B266;
+  --success: #5AA882;
+  --splash-gradient: linear-gradient(135deg, #D2E2D8 0%, #EAF2ED 40%, #BCDBCC 100%);
+}
